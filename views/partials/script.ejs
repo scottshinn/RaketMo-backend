@@ -1,0 +1,32 @@
+<script>
+    const currentPageURL = window.location.pathname;
+    // Get all the <a> elements within the #menu
+    const menuLinks = document.querySelectorAll('#menu a');
+
+    // Loop through the links and compare their href attributes with the current URL
+    menuLinks.forEach(link => {
+        try {
+            const linkURL = new URL(link.href).pathname;
+            if (linkURL === currentPageURL) {
+                link.classList.add('active'); // Add the active class to the parent <li>
+            }
+        } catch (error) {
+            console.error('Error parsing URL:', error);
+        }
+    });
+
+    const worker = document.getElementById('worker');
+    const jobposter = document.getElementById('jobposter');
+
+    if(currentPageURL === '/admin/getAllWorkersJobs'){
+        worker.classList.add('active');
+    } else if(currentPageURL === '/admin/getAllPostedJobs' || currentPageURL == '/admin/viewApplicants'){
+        jobposter.classList.add('active');
+    } 
+
+    function logout(path){
+        if(confirm('Are your sure you want to logout?')){
+            window.location.href = path;
+        }
+    }
+</script>

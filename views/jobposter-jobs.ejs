@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png" />
+  <link rel="icon" type="image/png" href="/assets/img/logo.png" />
+  <title>posters</title>
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <!-- Nucleo Icons -->
+  <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+  <link href="/assets/css/custom.css" rel="stylesheet" />
+  <link href="/assets/css/owl.carousel.min.css" rel="stylesheet" />
+  <link href="/assets/css/owl.theme.default.min.css" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/a75f4f3f3a.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+  <%- include ('./partials/sidebar.ejs') %>
+
+  <main class="main-content position-relative border-radius-lg">
+    <!-- Navbar -->
+    <!-- <%- include ('./partials/navbar.ejs') %> -->
+
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card shadow-none mb-4">
+            <div class="card-header pb-0 d-flex align-items-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20px" class="cursor-pointer" onclick="history.back()">
+                <path d="M48 256a208 208 0 1 1 416 0A208 208 0 1 1 48 256zm464 0A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM217.4 376.9c4.2 4.5 10.1 7.1 16.3 7.1c12.3 0 22.3-10 22.3-22.3V304h96c17.7 0 32-14.3 32-32V240c0-17.7-14.3-32-32-32H256V150.3c0-12.3-10-22.3-22.3-22.3c-6.2 0-12.1 2.6-16.3 7.1L117.5 242.2c-3.5 3.8-5.5 8.7-5.5 13.8s2 10.1 5.5 13.8l99.9 107.1z" />
+              </svg>
+              <!-- <h6 class="ms-2 m-0">Jobs</h6> -->
+              <!-- <a href="#"> <button class="theme-btn-clr">All Orders</button></a> -->
+            </div>
+            <div class="card-body px-0 py-4 report-wrap">
+              <div class="p-0 mx-3 user-technician-table">
+                <div class="d-flex align-items-center w-100 justify-content-between px-2 thead">
+                  <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Name</p>
+                  <!-- <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7 min-space">Price</p> -->
+                  <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Category</p>
+                  <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7 max-space">Location</p>
+                  <!-- <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7 status-btn">Status</p> -->
+                  <p class="text-center text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7 action-view">view details</p>
+                </div>
+
+                <% for(const job of getJobPostersJob){ %>
+                <div class="d-flex align-items-center justify-content-between tr px-2 py-3 mb-4 tbody">
+                  <div class="d-flex py-1 table-content">
+                    <div>
+                      <img src="<%= job.job_images[0]?.job_image %>" onerror="this.onerror=null; this.src='/assets/img/default.jpg'; this.style.display='block';" class="avatar avatar-sm me-3" alt="user1" />
+                    </div>
+                    <div class="d-flex flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm"><%= job.title %></h6>
+                      <!-- <p class="text-xs font-weight-bold mb-0">HouseKeeper</p> -->
+                    </div>
+                  </div>
+                  <!-- <p class="table-content text-xs font-weight-bold mb-0 min-space">$<%= job.price %></p> -->
+                  <!-- <p class="table-content text-xs font-weight-bold mb-0"><%= job.category.category %></p> -->
+                  <div class="table-content text-xs font-weight-bold mb-0">
+                    <span><%= job.category ? job.category[0] :'' %></span>
+
+                    <% if (job.category?.length > 1) { %>
+                    <span id="dots-<%= job.id %>"> ...</span>
+                    <span id="more-<%= job.id %>" style="display: none;">
+                      <br>
+                      <% for (let i = 1; i < job.category.length; i++) { %>
+                      <%= job.category[i] %><br>
+                      <% } %>
+                    </span>
+                    <a href="javascript:void(0)" onclick="toggleMore('<%= job.id %>')" class="text-primary" style="font-size: 12px;">Show more</a>
+                    <% } %>
+                  </div>
+                  <div class="table-content d-flex align-items-center max-space">
+                    <div class="month-salary location me-2">
+                      <i class="fa-solid fa-location-dot fs-6 text-white"></i>
+                    </div>
+                    <div class="">
+                      <p class="text-xs font-weight-bold mb-0"><%= job.address %></p>
+                    </div>
+                  </div>
+
+                  <div class="d-flex align-items-center table-content justify-content-center action-view">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="15px" fill="#5cba8d" class="cursor-pointer" onclick="closejob('<%= job.id %>')">
+                      <path d="M288 80c-65.2 0-118.8 29.6-159.9 67.7C89.6 183.5 63 226 49.4 256c13.6 30 40.2 72.5 78.6 108.3C169.2 402.4 222.8 432 288 432s118.8-29.6 159.9-67.7C486.4 328.5 513 286 526.6 256c-13.6-30-40.2-72.5-78.6-108.3C406.8 109.6 353.2 80 288 80zM95.4 112.6C142.5 68.8 207.2 32 288 32s145.5 36.8 192.6 80.6c46.8 43.5 78.1 95.4 93 131.1c3.3 7.9 3.3 16.7 0 24.6c-14.9 35.7-46.2 87.7-93 131.1C433.5 443.2 368.8 480 288 480s-145.5-36.8-192.6-80.6C48.6 356 17.3 304 2.5 268.3c-3.3-7.9-3.3-16.7 0-24.6C17.3 208 48.6 156 95.4 112.6zM288 336c44.2 0 80-35.8 80-80s-35.8-80-80-80c-.7 0-1.3 0-2 0c1.3 5.1 2 10.5 2 16c0 35.3-28.7 64-64 64c-5.5 0-10.9-.7-16-2c0 .7 0 1.3 0 2c0 44.2 35.8 80 80 80zm0-208a128 128 0 1 1 0 256 128 128 0 1 1 0-256z" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="job-preview shadow-lg d-none" id="job-details-<%= job.id %>">
+                  <div class="theme-color position-relative"><i class="fa-solid fa-xmark position-absolute end-0 mt-2 me-2 text-white fs-4 cursor-pointer" onclick="closejob('<%= job.id %>')"></i></div>
+                  <div class="p-4">
+                    <div class="owl-carousel owl-theme">
+                      <% job.job_images.forEach((img)=> { %>
+                      <div class="item"><img src="<%= img.job_image %>" onerror="this.onerror=null; this.src='/assets/img/default.jpg'; this.style.display='block';" width="100%" height="180px" class="rounded-3" /></div>
+                      <% }); %>
+                    </div>
+                    <div class="mt-4 job-details-wrap">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0"><%= job.title %></h5>
+                        <p class="m-0 text-xs fw-bold text-dark"><%= job.category.category %></p>
+                      </div>
+
+                      <p class="text-dark mt-3"><strong style="margin-right: 10px;">Description:</strong><%= job.description %></p>
+                      <p class="text-dark mt-3"><strong style="margin-right: 10px;">Min Bids:</strong><%= job.min_bids %></p>
+                      <p class="text-dark mt-3"><strong style="margin-right: 10px;">Max Bids:</strong><%= job.max_bids %></p>
+                      <p class="text-dark mt-3"><strong style="margin-right: 10px;">Jobs Date:</strong><%= job.jobs_date %></p>
+                      <p class="text-dark mt-3"><strong style="margin-right: 10px;">Jobs Time:</strong><%= job.jobs_time %></p>
+
+                      <div class="vertical-line"></div>
+
+                      <div class="mb-4 d-flex align-items-center">
+                        <!-- <div class="month-salary money me-2">
+                                                        <i class="fa-solid fa-sack-dollar fs-6 text-white" aria-hidden="true"></i>
+                                                    </div> -->
+                        <div class="d-flex flex-column align-items-start">
+                          <!-- <p class="font-weight-bold mb-0"><%= job.price %></p> -->
+                          <!-- <p class="font-weight-bold mb-0">Monthly Salary</p> -->
+                        </div>
+                      </div>
+
+                      <div class="d-flex align-items-center">
+                        <div class="month-salary location me-2">
+                          <i class="fa-solid fa-location-dot fs-6 text-white" aria-hidden="true"></i>
+                        </div>
+                        <div class="d-flex flex-column align-items-start">
+                          <p class="font-weight-bold mb-0"><%= job.address %></p>
+                        </div>
+                      </div>
+
+                      <div class="">
+                        <a href="/admin/viewApplicants?job_id=<%= job.id %>">
+                          <button type="button" class="text-white theme-btn-clr w-100 mt-4">View Applicants</button>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+              </div>
+            </div>
+            <% if(!getJobPostersJob?.length){ %>
+            <p style="text-align: center;">Data not found</p>
+            <% } %>
+            <div class="pagination-wrap d-flex align-items-center justify-content-center mt-3">
+              <!-- Assuming you have Bootstrap CSS linked in your HTML -->
+              <!-- Pagination Section -->
+              <% if(totalPages > 1){ %>
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                  <!-- Previous Button -->
+                  <li class="<%= page === 1 ? 'disabled' : '' %>">
+                    <a class="page-link" href="?page=<%= page - 1 %>&job_poster_id=<%= job_poster_id %>">Previous</a>
+                  </li>
+
+                  <!-- First Page -->
+                  <!-- <li class="page-item <%= page === 1 ? 'active' : '' %>"> -->
+                  <li class="page-item <%= page === 1 ? '' : '' %>">
+                    <a class="page-link" href="?page=1&job_poster_id=<%= job_poster_id %>">1</a>
+                  </li>
+
+                  <!-- Dots for Ellipsis -->
+                  <% if (page > 1) { %>
+                  <li class="page-item active"><span class="page-link"><%= page %></span></li>
+                  <% } %>
+
+                  <% if (totalPages > 1) { %>
+                  <li class="">...</li>
+                  <% } %>
+
+                  <!-- Last Page -->
+                  <!-- <li class="page-item <%= page === totalPages ? 'active' : '' %>"> -->
+                  <li class="page-item <%= page === totalPages ? '' : '' %>">
+                    <a class="page-link" href="?page=<%= totalPages %>&job_poster_id=<%= job_poster_id %>"><%= totalPages %></a>
+                  </li>
+
+                  <!-- Next Button -->
+                  <li class="<%= page === totalPages ? 'disabled' : '' %>">
+                    <a class="page-link" href="?page=<%= page + 1 %>&job_poster_id=<%= job_poster_id %>">Next</a>
+                  </li>
+                </ul>
+              </nav>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal delete icon  -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 350px">
+      <div class="modal-content">
+        <div class="modal-body delete-modal text-center pt-4">
+          <h6 class="fs-5">Are your sure want to Delete ?</h6>
+          <div class="py-2">
+            <button type="button" class="approved">Accept</button>
+            <button type="button" class="reject ms-3" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Reject</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--   Core JS Files   -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="/assets/js/core/popper.min.js"></script>
+  <script src="/assets/js/core/bootstrap.min.js"></script>
+  <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="/assets/js/owl.carousel.js"></script>
+  <%- include ('./partials/script.ejs') %>
+  <script>
+    function closejob(job_id) {
+      const jobDetails = document.getElementById(`job-details-${job_id}`);
+      jobDetails.classList.toggle('d-none'); // Toggle visibility
+    }
+    // function closejob() {
+    //     $("#job-details").toggleClass("d-none");
+    // }
+    var win = navigator.platform.indexOf("Win") > -1;
+    if (win && document.querySelector("#sidenav-scrollbar")) {
+      var options = {
+        damping: "0.5",
+      };
+      Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+    }
+  </script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+
+  <script>
+    $(".owl-carousel").owlCarousel({
+      loop: false,
+      margin: 10,
+      nav: false,
+      autoplay: true,
+      autoplayTimeout: 2000,
+      responsive: {
+        0: {
+          items: 1,
+        },
+        600: {
+          items: 1,
+        },
+        1000: {
+          items: 1,
+        },
+      },
+    });
+
+    // pagination
+    $(document).ready(function() {
+      $(".page-list").on("click", function() {
+        $(".page-list").removeClass("active");
+
+        $(this).addClass("active");
+      });
+    });
+  </script>
+  <script>
+    function toggleMore(id) {
+      const dots = document.getElementById('dots-' + id);
+      const more = document.getElementById('more-' + id);
+      const link = event.target;
+
+      if (dots.style.display === 'none') {
+        dots.style.display = 'inline';
+        more.style.display = 'none';
+        link.textContent = 'Show more';
+      } else {
+        dots.style.display = 'none';
+        more.style.display = 'inline';
+        link.textContent = 'Show less';
+      }
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png" />
+    <link rel="icon" type="image/png" href="/assets/img/logo.png" />
+    <title>Verification Requests</title>
+    <!-- Fonts and icons -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Nucleo Icons -->
+    <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link id="pagestyle" href="/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+    <link href="/assets/css/custom.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/a75f4f3f3a.js" crossorigin="anonymous"></script>
+    <style>
+        .worker-card {
+            transition: transform 0.2s;
+        }
+
+        .worker-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .identity-proof-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .card-body p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Pagination Styles */
+        .pagination-wrap {
+            margin-top: 1.5rem;
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .pagination .page-item {
+            margin: 0;
+        }
+
+        .pagination .page-link {
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            text-align: center;
+            border-radius: 50%;
+            padding: 0;
+            font-size: 14px;
+            color: #5e5e5e;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #f0f0f0;
+            border-color: #d0d0d0;
+        }
+
+        .pagination .active .page-link {
+            background-color: #5cba8d;
+            border-color: #5cba8d;
+            color: #fff;
+        }
+
+        .pagination .disabled .page-link {
+            color: #c0c0c0;
+            border-color: #e0e0e0;
+            background-color: #fff;
+            cursor: not-allowed;
+        }
+
+        .pagination .ellipsis {
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            text-align: center;
+            font-size: 14px;
+            color: #5e5e5e;
+        }
+
+        .pagination .prev-next {
+            width: auto;
+            padding: 0 12px;
+            border-radius: 16px;
+        }
+    </style>
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+    <!-- SIDEBAR -->
+    <%- include ('./partials/sidebar.ejs') %>
+
+        <main class="main-content position-relative border-radius-lg">
+            <!-- Navbar -->
+            <!-- <%- include ('./partials/navbar.ejs') %> -->
+
+                <!-- End Navbar -->
+                <div class="container-fluid py-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card mb-4 pb-5">
+                                <div class="card-header pb-0 d-flex align-items-center justify-content-between mb-4">
+                                    <!-- <h6>Verification Requests</h6> -->
+                                </div>
+                                <div class="card-body px-4 pt-0 pb-2">
+                                    <div class="row" id="workerCards">
+                                        <!-- Cards will be populated by JavaScript -->
+                                    </div>
+                                </div>
+
+                                <div class="pagination-wrap d-flex align-items-center justify-content-center mt-3"
+                                    id="pagination">
+                                    <!-- Pagination will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </main>
+
+        <!-- Core JS Files -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Soft Dashboard -->
+        <script src="/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+        <%- include ('./partials/script.ejs') %>
+            <script>
+                var win = navigator.platform.indexOf("Win") > -1;
+                if (win && document.querySelector("#sidenav-scrollbar")) {
+                    var options = { damping: "0.5" };
+                    Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+                }
+
+                $(document).ready(function () {
+                    // Function to fetch workers from API
+                    function fetchWorkers(page = 1) {
+                        $.ajax({
+                            url: `/admin/get-requested-users?page=${page}`,
+                            method: 'GET',
+                            success: function (response) {
+                                if (response.success) {
+                                    renderWorkers(response.data, response.currentPage, response.totalPages);
+                                } else {
+                                    $('#workerCards').html(`
+                                <div class="col-12 text-center">
+                                    <p>No Requests found</p>
+                                </div>
+                            `);
+                                    $('#pagination').empty();
+                                }
+                            },
+                            error: function () {
+                                $('#workerCards').html(`
+                            <div class="col-12 text-center">
+                                <p>Error fetching data</p>
+                            </div>
+                        `);
+                                $('#pagination').empty();
+                            }
+                        });
+                    }
+
+                    // Function to render workers and pagination
+                    function renderWorkers(data, currentPage, totalPages) {
+                        let cardContent = '';
+                        if (data && data.length > 0) {
+                            data.forEach(worker => {
+                                cardContent += `
+                            <div class="col-md-4 mb-4">
+                                <div class="card worker-card shadow-sm">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <img src="${worker.profile_image || '/assets/img/default.jpg'}" 
+                                                 onerror="this.onerror=null; this.src='/assets/img/default.jpg'; this.style.display='block';" 
+                                                 class="avatar avatar-md me-3" alt="user" />
+                                            <div>
+                                                <h6 class="mb-0">${worker.first_name} ${worker.last_name}</h6>
+                                                <p class="text-xs text-secondary mb-0">${worker.email}</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <a href="${worker.identity_proof || '#'}" target="_blank">
+                                                    <img src="${worker.identity_proof || '/assets/img/default.jpg'}" 
+                                                         onerror="this.onerror=null; this.src='/assets/img/default.jpg'; this.style.display='block';" 
+                                                         class="identity-proof-img" alt="Identity Proof" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <button class="btn btn-sm btn-success approve-btn me-2" data-id="${worker.id}">Accept</button>
+                                            <button class="btn btn-sm btn-danger reject-btn" data-id="${worker.id}">Reject</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                            });
+                        } else {
+                            cardContent = `
+                        <div class="col-12 text-center">
+                            <p>No Requests found</p>
+                        </div>
+                    `;
+                        }
+
+                        $('#workerCards').html(cardContent);
+
+                        // Render pagination based on the specified design
+                        let pagination = '';
+                        if (totalPages > 1) {
+                            pagination = `
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                                    <a class="page-link prev-next" href="#" data-page="${currentPage - 1}">Previous</a>
+                                </li>
+                                <li class="page-item ${currentPage === 1 ? 'active' : ''}">
+                                    <a class="page-link" href="#" data-page="1">1</a>
+                                </li>
+                                ${currentPage !== 1 ? `
+                                    <li class="page-item ${currentPage !== 1 ? 'active' : ''}">
+                                        <a class="page-link" href="#" data-page="${currentPage}">${currentPage}</a>
+                                    </li>
+                                ` : ''}
+                                ${totalPages > 1 && currentPage !== totalPages ? `
+                                    <li class="page-item"><span class="ellipsis">...</span></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" data-page="${totalPages}">${totalPages}</a>
+                                    </li>
+                                ` : `... <li class="page-item"><span class="page-link">${totalPages}</span> </li> `}
+                                
+                                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                                    <a class="page-link prev-next" href="#" data-page="${currentPage + 1}">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    `;
+                        }
+                        $('#pagination').html(pagination);
+                    }
+
+                    // Handle pagination clicks
+                    $(document).on('click', '.page-link', function (e) {
+                        e.preventDefault();
+                        const page = $(this).data('page');
+                        if (page) {
+                            fetchWorkers(page);
+                            $('.page-item').removeClass('active');
+                            $(this).parent().addClass('active');
+                        }
+                    });
+
+                    // Handle Approve button click
+                    $(document).on('click', '.approve-btn, .reject-btn', function () {
+                        const userId = $(this).data('id');
+                        const status = $(this).hasClass('approve-btn') ? 2 : 3; // 2 for Accept, 3 for Reject
+                        const action = status === 2 ? 'approve' : 'reject';
+
+                        $.ajax({
+                            url: '/admin/proof-accept-reject',
+                            method: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                user_id: userId,
+                                status: status
+                            }),
+                            success: function (response) {
+                                if (response.success) {
+                                    alert(`User ${action}d successfully`);
+                                    fetchWorkers(); // Refresh the cards
+                                } else {
+                                    alert(`Failed to ${action} user: ${response.message || 'Unknown error'}`);
+                                }
+                            },
+                            error: function (xhr) {
+                                alert(`Error ${action}ing user: ${xhr.responseJSON?.message || 'Server error'}`);
+                            }
+                        });
+                    });
+
+                    fetchWorkers();
+                });
+            </script>
+</body>
+
+</html>

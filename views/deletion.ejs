@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enter OTP</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      width: 300px;
+      text-align: center;
+    }
+    input[type="text"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .styled {
+  border: 0;
+  line-height: 2.5;
+  padding: 0 20px;
+  font-size: 1rem;
+  text-align: center;
+  color: #fff;
+  text-shadow: 1px 1px 1px #000;
+  border-radius: 10px;
+  background-color: rgba(220, 0, 0, 1);
+  background-image: linear-gradient(
+    to top left,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.2) 30%,
+    rgba(0, 0, 0, 0)
+  );
+  box-shadow:
+    inset 2px 2px 3px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 3px rgba(0, 0, 0, 0.6);
+}
+
+.styled:hover {
+  background-color: rgba(255, 0, 0, 1);
+}
+
+.styled:active {
+  box-shadow:
+    inset -2px -2px 3px rgba(255, 255, 255, 0.6),
+    inset 2px 2px 3px rgba(0, 0, 0, 0.6);
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <% if(email){ %>
+    <h2>Enter OTP</h2>
+    <p>An OTP has been sent to your email:</p>
+    <p><strong>Email:</strong> <%= email %></p>
+    
+    <form action="/user/account_Deletion" method="post">
+        <input type="number" name="otp" placeholder="Enter OTP" required>
+        <input type="hidden" name="email" value="<%= email %>" required>
+        <% } %>
+      <% if(email){ %>
+        <button class="favorite styled" type="submit">Delete account</button>
+      <% } %>
+    </form>
+        
+    <p style="color: red;"><%= message %></p>
+
+  </div>
+</body>
+</html>

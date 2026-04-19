@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png" />
+        <link rel="icon" type="image/png" href="/assets/img/logo.png" />
+        <title>posters</title>
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+        <!-- Nucleo Icons -->
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+        <link href="/assets/css/custom.css" rel="stylesheet" />
+        <script src="https://kit.fontawesome.com/a75f4f3f3a.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body class="g-sidenav-show bg-gray-100">
+        <%- include ('./partials/sidebar.ejs') %>
+        <main class="main-content position-relative border-radius-lg">
+            <!-- Navbar -->
+            <!-- <%- include ('./partials/navbar.ejs') %> -->
+            <!-- End Navbar -->
+            <div class="container-fluid py-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card shadow-none mb-4">
+                            <div class="card-header pb-0 d-flex align-items-center justify-content-between mb-4">
+                                <!-- <h6>Job Posters</h6> -->
+                                <!-- <a href="#"> <button class="theme-btn-clr">All Orders</button></a> -->
+                            </div>
+                            <div class="card-body px-0 py-4 report-wrap">
+                                <div class="p-0 mx-3 user-technician-table">
+                                    <div class="d-flex align-items-center w-100 justify-content-between px-2 thead">
+                                        <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Name</p>
+                                        <!-- <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Price</p> -->
+                                        <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Location</p>
+                                        <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7 status-btn">Rating</p>
+                                        <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7 status-btn">Phone Number</p>
+
+                                        <!-- <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Status</p> -->
+                                        <p class="text-center text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">View Jobs</p>
+                                    </div>
+
+                                    <% for(const jobPoster of getJobPoster){ %>
+                                        <div class="d-flex align-items-center justify-content-between tr px-2 py-3 mb-4 tbody">
+                                            <div class="d-flex py-1 table-content">
+                                                <div>
+                                                    <img src="<%=jobPoster.profile_image%>" onerror="this.onerror=null; this.src='/assets/img/default.jpg'; this.style.display='block';" class="avatar avatar-sm me-3" alt="user1" />
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm"><%= jobPoster.first_name %> <%= jobPoster.last_name %></h6>
+                                                    <p class="text-xs font-weight-bold mb-0"><%= jobPoster.email %></p>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="table-content d-flex align-items-center">
+                                                <div class="month-salary money me-2">
+                                                    <i class="fa-solid fa-sack-dollar fs-6 text-white"></i>
+                                                </div>
+                                                <div class="">
+                                                    <p class="text-xs font-weight-bold mb-0">$120</p>
+                                                    <p class="text-xs font-weight-bold mb-0">Monthly Salary</p>
+                                                </div>
+                                            </div> -->
+                                            <div class="table-content d-flex align-items-center">
+                                                <div class="month-salary location me-2">
+                                                    <i class="fa-solid fa-location-dot fs-6 text-white"></i>
+                                                </div>
+                                                <div class="">
+                                                    <p class="text-xs font-weight-bold mb-0"><%= jobPoster.address %></p>
+                                                </div>
+                                            </div>
+
+                                            <div class="table-content d-flex align-items-center reviewtxt fw-bold status-btn">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="20px" fill="#FFC502" class="me-1">
+                                                    <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" /></svg><span><%= jobPoster.overall_rating %></span>
+                                            </div>
+                                            <p class="table-content text-xs font-weight-bold mb-0 status-btn"><%=jobPoster.country_code%> <%=jobPoster.mobile_number%></p>
+
+                                            <!-- <div class="d-flex align-items-center table-content"><span class="badge approved reportbtn me-3">Accept</span> <span class="badge reject reportbtn">Reject</span></div> -->
+                                            <div class="d-flex align-items-center table-content justify-content-center">
+                                                <a href="/admin/getAllPostedJobs?job_poster_id=<%= jobPoster.id %>">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="15px" fill="#5cba8d" class="cursor-pointer">
+                                                        <path d="M288 80c-65.2 0-118.8 29.6-159.9 67.7C89.6 183.5 63 226 49.4 256c13.6 30 40.2 72.5 78.6 108.3C169.2 402.4 222.8 432 288 432s118.8-29.6 159.9-67.7C486.4 328.5 513 286 526.6 256c-13.6-30-40.2-72.5-78.6-108.3C406.8 109.6 353.2 80 288 80zM95.4 112.6C142.5 68.8 207.2 32 288 32s145.5 36.8 192.6 80.6c46.8 43.5 78.1 95.4 93 131.1c3.3 7.9 3.3 16.7 0 24.6c-14.9 35.7-46.2 87.7-93 131.1C433.5 443.2 368.8 480 288 480s-145.5-36.8-192.6-80.6C48.6 356 17.3 304 2.5 268.3c-3.3-7.9-3.3-16.7 0-24.6C17.3 208 48.6 156 95.4 112.6zM288 336c44.2 0 80-35.8 80-80s-35.8-80-80-80c-.7 0-1.3 0-2 0c1.3 5.1 2 10.5 2 16c0 35.3-28.7 64-64 64c-5.5 0-10.9-.7-16-2c0 .7 0 1.3 0 2c0 44.2 35.8 80 80 80zm0-208a128 128 0 1 1 0 256 128 128 0 1 1 0-256z" />
+                                                    </svg></a>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                </div>
+                                <% if(!getJobPoster?.length){ %>
+                                    <p style="text-align: center;">Data not found</p>
+                                <% } %>
+                            </div>
+
+                            <div class="pagination-wrap d-flex align-items-center justify-content-center mt-3">
+                                <!-- Assuming you have Bootstrap CSS linked in your HTML -->
+                                <!-- Pagination Section -->
+                                <% if(totalPages > 1){ %>
+                                    <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center">
+                                    <!-- Previous Button -->
+                                    <li class="<%= page === 1 ? 'disabled' : '' %>">
+                                        <a class="page-link" href="?page=<%= page - 1 %>">Previous</a>
+                                    </li>
+                                
+                                    <!-- First Page -->
+                                    <!-- <li class="page-item <%= page === 1 ? 'active' : '' %>"> -->
+                                    <li class="page-item <%= page === 1 ? '' : '' %>">
+                                        <a class="page-link" href="?page=1">1</a>
+                                    </li>
+                                
+                                    <!-- Dots for Ellipsis -->
+                                    <% if (page > 1) { %>
+                                        <li class="page-item active"><span class="page-link"><%= page %></span></li>
+                                    <% } %>
+
+                                    <% if (totalPages > 1) { %>
+                                        <li class="">...</li>
+                                    <% } %>
+
+                                    <!-- Last Page -->
+                                    <!-- <li class="page-item <%= page === totalPages ? 'active' : '' %>"> -->
+                                    <li class="page-item <%= page === totalPages ? '' : '' %>">
+                                        <a class="page-link" href="?page=<%= totalPages %>"><%= totalPages %></a>
+                                    </li>
+
+                                    <!-- Next Button -->
+                                    <li class="<%= page === totalPages ? 'disabled' : '' %>">
+                                        <a class="page-link" href="?page=<%= page + 1 %>">Next</a>
+                                    </li>
+                                    </ul>
+                                </nav>
+                                <% } %>
+                        </div>
+
+                        <div class="job-preview shadow-lg d-none" id="job-details">
+                            <div class="theme-color position-relative"><i class="fa-solid fa-xmark position-absolute end-0 mt-2 me-2 text-white fs-4 cursor-pointer"></i></div>
+                            <div class="p-4">
+                                <img src="/assets/img/home-decor-2.jpg" width="100%" height="180px" class="rounded-3" />
+                                <div class="mt-4">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h5 class="mb-0">Jules Boutin</h5>
+                                        <p class="m-0 text-xs fw-bold text-dark">Julesboutin123@gmail.com</p>
+                                    </div>
+                                    <p class="text-dark mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque excepturi quia ad! Eaque atque in rem, aperiam placeat asperiores recusandae.</p>
+
+                                    <div class="vertical-line"></div>
+
+                                    <!-- <div class="mb-4 d-flex align-items-center">
+                                        <div class="month-salary money me-2">
+                                            <i class="fa-solid fa-sack-dollar fs-6 text-white" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="d-flex flex-column align-items-start">
+                                            <p class="font-weight-bold mb-0">$120</p>
+                                            <p class="font-weight-bold mb-0">Monthly Salary</p>
+                                        </div>
+                                    </div> -->
+
+                                    <div class="d-flex align-items-center">
+                                        <div class="month-salary location me-2">
+                                            <i class="fa-solid fa-location-dot fs-6 text-white" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="d-flex flex-column align-items-start">
+                                            <p class="font-weight-bold mb-0">965 Marine Dr, North Vancouver</p>
+                                            <p class="font-weight-bold mb-0">British Columbia</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Modal delete icon  -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="width: 350px">
+                <div class="modal-content">
+                    <div class="modal-body delete-modal text-center pt-4">
+                        <h6 class="fs-5">Are your sure want to Delete ?</h6>
+                        <div class="py-2">
+                            <button type="button" class="approved">Accept</button>
+                            <button type="button" class="reject ms-3" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Reject</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--   Core JS Files   -->
+        <%- include ('./partials/script.ejs') %>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <script>
+            // $(".fa-xmark").click(){
+            //     $("#job-details").addClass("d-none")
+            //     };
+
+            var win = navigator.platform.indexOf("Win") > -1;
+            if (win && document.querySelector("#sidenav-scrollbar")) {
+                var options = {
+                    damping: "0.5",
+                };
+                Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+            }
+
+            // pagination
+            $(document).ready(function () {
+                $(".page-list").on("click", function () {
+                    $(".page-list").removeClass("active");
+
+                    $(this).addClass("active");
+                });
+            });
+        </script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+    </body>
+</html>

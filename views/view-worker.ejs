@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png" />
+  <link rel="icon" type="image/png" href="/assets/img/logo.png" />
+  <title>workers</title>
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <!-- Nucleo Icons -->
+  <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+  <link href="/assets/css/custom.css" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/a75f4f3f3a.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+  <!-- SIDEBAR -->
+  <%- include ('./partials/sidebar.ejs') %>
+
+  <main class="main-content position-relative border-radius-lg">
+    <!-- Navbar -->
+    <!-- <%- include ('./partials/navbar.ejs') %> -->
+
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4 pb-5">
+            <div class="card-header pb-0 d-flex align-items-center justify-content-between mb-4">
+              <!-- <h6>View workers</h6> -->
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> User </th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Zip Code </th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Experience </th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Category </th>
+                      <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Yelp Account </th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Payment Method </th> -->
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Rating </th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0"> Action </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for(const worker of getWorkers){ %>
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            <img src="<%= worker.profile_image %>" onerror="this.onerror=null; this.src='/assets/img/default.jpg'; this.style.display='block';" class="avatar avatar-sm me-3" alt="user2" />
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm"><%= worker.first_name %> <%= worker.last_name %></h6>
+                            <p class="text-xs text-secondary mb-0"><%= worker.email %></p>
+                          </div>
+                        </div>
+                      </td>
+                      <td><p class="text-xs font-weight-bold mb-0"><%= worker.zip_code %></p></td>
+                      <td><p class="text-xs font-weight-bold mb-0"><%= worker.experience_years %> Year</p></td>
+                      <!-- <td><p class="text-xs font-weight-bold mb-0"><%= worker.category %></p></td> -->
+                      <td>
+                        <div class="text-xs font-weight-bold mb-0">
+                          <span><%= worker.category ? worker.category[0] :'' %></span>
+
+                          <% if (worker.category?.length > 1) { %>
+                          <span id="dots-<%= worker.id %>"> ...</span>
+                          <span id="more-<%= worker.id %>" style="display: none;">
+                            <br>
+                            <% for (let i = 1; i < worker.category.length; i++) { %>
+                            <%= worker.category[i] %><br>
+                            <% } %>
+                          </span>
+                          <a href="javascript:void(0)" onclick="toggleMore('<%= worker.id %>')" class="text-primary" style="font-size: 12px;">Show more</a>
+                          <% } %>
+                        </div>
+                      </td>
+                      <!-- <td><p class="text-xs font-weight-bold mb-0"><%= worker.yelp_account %></p></td>
+                      <td><p class="text-xs font-weight-bold mb-0"><%= worker.payment %></p></td> -->
+                      <td>
+                        <div class="reviewtxt fw-bold d-flex align-items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="16px" height="16px" fill="#FFC502" class="me-1">
+                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+                          </svg>
+                          <p class="text-sm font-weight-bold mb-0"><%= worker.overall_rating %></p>
+                        </div>
+                      </td>
+                      <td class="align-middle">
+                        <a href="/admin/getAllWorkersJobs?worker_id=<%= worker.id %>&page=1" class="text-secondary font-weight-bold text-xs deleteicon">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="15px" fill="#5cba8d" class="cursor-pointer" onclick="closejob()">
+                            <path d="M288 80c-65.2 0-118.8 29.6-159.9 67.7C89.6 183.5 63 226 49.4 256c13.6 30 40.2 72.5 78.6 108.3C169.2 402.4 222.8 432 288 432s118.8-29.6 159.9-67.7C486.4 328.5 513 286 526.6 256c-13.6-30-40.2-72.5-78.6-108.3C406.8 109.6 353.2 80 288 80zM95.4 112.6C142.5 68.8 207.2 32 288 32s145.5 36.8 192.6 80.6c46.8 43.5 78.1 95.4 93 131.1c3.3 7.9 3.3 16.7 0 24.6c-14.9 35.7-46.2 87.7-93 131.1C433.5 443.2 368.8 480 288 480s-145.5-36.8-192.6-80.6C48.6 356 17.3 304 2.5 268.3c-3.3-7.9-3.3-16.7 0-24.6C17.3 208 48.6 156 95.4 112.6zM288 336c44.2 0 80-35.8 80-80s-35.8-80-80-80c-.7 0-1.3 0-2 0c1.3 5.1 2 10.5 2 16c0 35.3-28.7 64-64 64c-5.5 0-10.9-.7-16-2c0 .7 0 1.3 0 2c0 44.2 35.8 80 80 80zm0-208a128 128 0 1 1 0 256 128 128 0 1 1 0-256z">
+                            </path>
+                          </svg></a>
+                      </td>
+                    </tr>
+                    <% } %>
+                  </tbody>
+                  <% if(!getWorkers?.length){ %>
+                  <p style="text-align: center;">Data not found</p>
+                  <% } %>
+                </table>
+              </div>
+            </div>
+
+            <div class="pagination-wrap d-flex align-items-center justify-content-center mt-3">
+              <!-- Assuming you have Bootstrap CSS linked in your HTML -->
+              <!-- Pagination Section -->
+              <% if(totalPages > 1){ %>
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                  <!-- Previous Button -->
+                  <li class="<%= page === 1 ? 'disabled' : '' %>">
+                    <a class="page-link" href="?page=<%= page - 1 %>">Previous</a>
+                  </li>
+
+                  <!-- First Page -->
+                  <!-- <li class="page-item <%= page === 1 ? 'active' : '' %>"> -->
+                  <li class="page-item <%= page === 1 ? '' : '' %>">
+                    <a class="page-link" href="?page=1">1</a>
+                  </li>
+
+                  <!-- Dots for Ellipsis -->
+                  <% if (page > 1) { %>
+                  <li class="page-item active"><span class="page-link"><%= page %></span></li>
+                  <% } %>
+
+                  <!-- Middle Pages -->
+                  <!-- <% for (let i = Math.max(2, page - 2); i <= Math.min(page + 2, totalPages); i++) { %>
+                                <li class="page-item <%= page === i ? 'active' : '' %>">
+                                <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                                </li>
+                            <% } %> -->
+
+                  <% if (totalPages > 1) { %>
+                  <li class="">...</li>
+                  <% } %>
+
+                  <!-- Dots for Ellipsis -->
+                  <!-- <% if (page < totalPages - 1) { %>
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            <% } %> -->
+                  <!-- Last Page -->
+                  <!-- <li class="page-item <%= page === totalPages ? 'active' : '' %>"> -->
+                  <li class="page-item <%= page === totalPages ? '' : '' %>">
+                    <a class="page-link" href="?page=<%= totalPages %>"><%= totalPages %></a>
+                  </li>
+
+                  <!-- Next Button -->
+                  <li class="<%= page === totalPages ? 'disabled' : '' %>">
+                    <a class="page-link" href="?page=<%= page + 1 %>">Next</a>
+                  </li>
+                </ul>
+              </nav>
+              <% } %>
+
+              <!-- <div class="d-flex align-items-center text-dark me-2 cursor-pointer">
+                                <i class="fa-solid fa-angles-left"></i>
+                                <p class="m-0">Prev</p>
+                            </div>
+                            <ul class="d-flex align-items-center m-0 p-0">
+                                <li class="page-list">1</li>
+                                <li class="page-list">2</li>
+                                <li class="page-list">3</li>
+                                <li class="mx-2 list-group">...</li>
+                                <li class="page-list">50</li>
+                                <li class="page-list">51</li>
+                                <li class="page-list">52</li>
+                            </ul>
+                            <div class="d-flex align-items-center text-dark ms-2 cursor-pointer">
+                                <p class="m-0">Next</p>
+                                <i class="fa-solid fa-angles-right"></i>
+                            </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- <%- include ('./partials/script.ejs') %> -->
+  <!-- Modal delete icon  -->
+  <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="width: 350px">
+            <div class="modal-content">
+                <div class="modal-body delete-modal text-center pt-4">
+                    <h6 class="fs-5">Are your sure want to Delete ?</h6>
+                    <div class="py-2">
+                        <button type="button" class="approved">Accept</button>
+                        <button type="button" class="reject ms-3" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Reject</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+  <!--   Core JS Files   -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script src="/assets/js/core/popper.min.js"></script>
+  <script src="/assets/js/core/bootstrap.min.js"></script>
+  <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+  <%- include ('./partials/script.ejs') %>
+  <script>
+    var win = navigator.platform.indexOf("Win") > -1;
+    if (win && document.querySelector("#sidenav-scrollbar")) {
+      var options = {
+        damping: "0.5",
+      };
+      Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+    }
+
+    $(document).ready(function() {
+      $(".page-list").on("click", function() {
+        $(".page-list").removeClass("active");
+
+        $(this).addClass("active");
+      });
+    });
+  </script>
+
+  <script>
+    function toggleMore(id) {
+      const dots = document.getElementById('dots-' + id);
+      const more = document.getElementById('more-' + id);
+      const link = event.target;
+
+      if (dots.style.display === 'none') {
+        dots.style.display = 'inline';
+        more.style.display = 'none';
+        link.textContent = 'Show more';
+      } else {
+        dots.style.display = 'none';
+        more.style.display = 'inline';
+        link.textContent = 'Show less';
+      }
+    }
+  </script>
+
+</body>
+
+</html>

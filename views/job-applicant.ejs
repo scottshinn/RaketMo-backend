@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png" />
+        <link rel="icon" type="image/png" href="/assets/img/logo.png" />
+        <title>Applicant</title>
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+        <!-- Nucleo Icons -->
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+        <link href="/assets/css/custom.css" rel="stylesheet" />
+        <script src="https://kit.fontawesome.com/a75f4f3f3a.js" crossorigin="anonymous"></script>
+        <style>
+            .nav-tabs .nav-link:hover {
+                border-color: transparent !important;
+                box-shadow: none !important;
+            }
+        
+            .nav-tabs .nav-link:focus {
+                box-shadow: none !important;
+                outline: none !important;
+            }
+        </style>
+    </head>
+
+    <body class="g-sidenav-show bg-gray-100">
+        <%- include ('./partials/sidebar.ejs') %>
+        <main class="main-content position-relative border-radius-lg">
+            <!-- Navbar -->
+            <!-- <%- include ('./partials/navbar.ejs') %> -->
+            <!-- End Navbar -->
+
+            <div class="container-fluid py-4">
+                <div class="row">
+                    <div class="col-12 userjob-tab bg-white pt-4">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20px" class="ms-4 cursor-pointer" onclick="history.back()">
+                                <path d="M48 256a208 208 0 1 1 416 0A208 208 0 1 1 48 256zm464 0A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM217.4 376.9c4.2 4.5 10.1 7.1 16.3 7.1c12.3 0 22.3-10 22.3-22.3V304h96c17.7 0 32-14.3 32-32V240c0-17.7-14.3-32-32-32H256V150.3c0-12.3-10-22.3-22.3-22.3c-6.2 0-12.1 2.6-16.3 7.1L117.5 242.2c-3.5 3.8-5.5 8.7-5.5 13.8s2 10.1 5.5 13.8l99.9 107.1z" />
+                            </svg>
+                            <ul class="nav nav-tabs d-flex- justify-content-end border-0" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link rounded-5 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Applied</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link rounded-5" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Hired</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link rounded-5" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed-tab-pane" type="button" role="tab" aria-controls="completed-tab-pane" aria-selected="false">Completed</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                                <div class="card shadow-none mb-4">
+                                    <div class="card-body px-0 py-4 report-wrap mt-3">
+                                        <div class="p-0 mx-3 user-technician-table">
+                                            <div class="d-flex align-items-center w-100 justify-content-between px-2 thead">
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Users</p>
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7 status-btn">Bid Estimate</p>
+                                                <!-- <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Location</p> -->
+                                                <!-- <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Status</p> -->
+                                            </div>
+
+                                            <% for(const booking of getJobsApplicants){ %>
+                                                <div class="d-flex align-items-center justify-content-between tr px-2 py-3 mb-4 tbody">
+                                                    <div class="d-flex py-1 table-content">
+                                                        <div>
+                                                            <img src="<%= booking.worker.profile_image %>" onerror="this.onerror=null; this.src='/assets/img/default.jpg'; this.style.display='block';" class="avatar avatar-sm me-3" alt="user1" />
+                                                        </div>
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                            <h6 class="mb-0 text-sm"><%= booking.worker.first_name %> <%= booking.worker.last_name %></h6>
+                                                            <p class="text-xs text-secondary mb-0"><%= booking.worker.email %></p>
+                                                        </div>
+                                                    </div>
+                                                    <p class="text-xs font-weight-bold mb-0 table-content status-btn">$<%= booking.bid_amount %></p>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                        <% if(!getJobsApplicants?.length){ %>
+                                            <p style="text-align: center; color: rgb(157, 65, 65);">Data not found</p>
+                                        <% } %>
+                                    </div>
+                                    <div class="pagination-wrap d-flex align-items-center justify-content-center mt-3">
+                                        <!-- Assuming you have Bootstrap CSS linked in your HTML -->
+                                        <!-- Pagination Section -->
+                                        <% if(totalPages > 1){ %>
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="pagination justify-content-center">
+                                            <!-- Previous Button -->
+                                            <li class="<%= page === 1 ? 'disabled' : '' %>">
+                                                <a class="page-link" href="?page=<%= page - 1 %>&job_id=<%= job_id %>">Previous</a>
+                                            </li>
+                                        
+                                            <!-- First Page -->
+                                            <!-- <li class="page-item <%= page === 1 ? 'active' : '' %>"> -->
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page=1&job_id=<%= job_id %>">1</a>
+                                            </li>
+                                        
+                                            <% if (page > 1) { %>
+                                                <li class="page-item active"><span class="page-link"><%= page %></span></li>
+                                            <% } %>
+            
+                                            <% if (totalPages > 1) { %>
+                                                <li class="">...</li>
+                                            <% } %>
+                                        
+                                            <!-- <li class="page-item <%= page === totalPages ? 'active' : '' %>"> -->
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page=<%= totalPages %>&job_id=<%= job_id %>"><%= totalPages %></a>
+                                            </li>
+            
+                                            <!-- Next Button -->
+                                            <li class="<%= page === totalPages ? 'disabled' : '' %>">
+                                                <a class="page-link" href="?page=<%= page + 1 %>&job_id=<%= job_id %>">Next</a>
+                                            </li>
+                                            </ul>
+                                        </nav>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                                <div class="card shadow-none mb-4">
+                                    <div class="card-body px-0 py-4 report-wrap mt-3">
+                                        <div class="p-0 mx-3 user-technician-table">
+                                            <div class="d-flex align-items-center w-100 justify-content-between px-2 thead">
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Users</p>
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7 status-btn">Bid Estimate</p>
+                                                <!-- <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Location</p> -->
+                                            </div>
+                                            <% for(const hired of getHiredApplicants){ %>
+                                            <div class="d-flex align-items-center justify-content-between tr px-2 py-3 mb-4 tbody">
+                                                <div class="d-flex py-1 table-content">
+                                                    <div>
+                                                        <img src="/assets/img/nail4.jpg" onerror="this.onerror=null; this.src='/assets/img/default.jpg'; this.style.display='block';" class="avatar avatar-sm me-3" alt="user1" />
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm"><%= hired.worker.first_name %> <%= hired.worker.last_name %></h6>
+                                                        <p class="text-xs text-secondary mb-0"><%= hired.worker.email %></p>
+                                                    </div>
+                                                </div>
+                                                <p class="text-xs font-weight-bold mb-0 table-content status-btn">$<%= hired.bid_amount %></p>
+                                            </div>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    <% if(!getHiredApplicants?.length){ %>
+                                        <p style="text-align: center; color: rgb(157, 65, 65);">Data not found</p>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab" tabindex="0">
+                                <div class="card shadow-none mb-4">
+                                    <div class="card-body px-0 py-4 report-wrap mt-3">
+                                        <div class="p-0 mx-3 user-technician-table">
+                                            <div class="d-flex align-items-center w-100 justify-content-between px-2 thead">
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Users</p>
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7 status-btn">Bid Estimate</p>
+                                                <!-- <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Location</p> -->
+                                            </div>
+                                            <% for(const comp of getCompApplicants){ %>
+                                            <div class="d-flex align-items-center justify-content-between tr px-2 py-3 mb-4 tbody">
+                                                <div class="d-flex py-1 table-content">
+                                                    <div>
+                                                        <img src="/assets/img/nail4.jpg" class="avatar avatar-sm me-3" alt="user1" />
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm"><%= comp.worker.first_name %> <%= comp.worker.last_name %></h6>
+                                                        <p class="text-xs text-secondary mb-0"><%= comp.worker.email %></p>
+                                                    </div>
+                                                </div>
+                                                <p class="text-xs font-weight-bold mb-0 table-content status-btn">$<%= comp.bid_amount %></p>
+                                            </div>
+                                            <% } %>
+                                            <% if(!getCompApplicants?.length){ %>
+                                                <p style="text-align: center; color: rgb(157, 65, 65);">Data not found</p>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!--   Core JS Files   -->
+        <%- include ('./partials/script.ejs') %>
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <script>
+            var win = navigator.platform.indexOf("Win") > -1;
+            if (win && document.querySelector("#sidenav-scrollbar")) {
+                var options = { damping: "0.5" };
+                Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+            }
+
+            $(document).ready(function () {
+                $(".page-list").on("click", function () {
+                    $(".page-list").removeClass("active");
+                    $(this).addClass("active");
+                });
+            });
+        </script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+    </body>
+</html>

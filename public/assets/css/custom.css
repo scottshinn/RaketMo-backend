@@ -1,0 +1,436 @@
+.theme-clr {
+    background: #3ead78;
+    color: #fff;
+}
+.theme-color {
+    color: #3ead78;
+}
+.user-product-img {
+    height: 280px;
+    width: 100%;
+    object-fit: cover;
+}
+.product-list-detail h6 {
+    width: 80%;
+}
+.product-list-detail h4 {
+    font-weight: 900;
+}
+
+.approved,
+.reportbtn {
+    background: #109970;
+    font-weight: 600;
+    font-size: 0.7rem;
+    cursor: pointer;
+    border: 0;
+}
+.hired {
+    background: #00c4ce;
+}
+.reject {
+    background: #ff0303;
+}
+
+.tr {
+    background: #fff;
+    box-shadow: 12px 10px 20px #0000000a !important;
+    border-radius: 10px !important;
+    border: 1px solid #ededed;
+}
+.thead p,
+.tbody .table-content {
+    width: 240px;
+    margin: 0;
+    margin-left: 20px;
+}
+.report-wrap .thead p,
+.report-wrap .tbody .table-content {
+    min-width: 150px;
+}
+
+.thead p:nth-child(1),
+.tbody .table-content:nth-child(1),
+.max-space {
+    min-width: 200px !important;
+}
+
+.thead p.action-view,
+.report-wrap .tbody .table-content.action-view {
+    min-width: 80px;
+    width: 40px;
+}
+.subscription-users .thead p:last-child,
+.subscription-users .report-wrap .tbody .table-content:last-child {
+    min-width: 140px;
+    width: 180px;
+}
+.user-technician-table {
+    overflow-x: auto;
+}
+.theme-btn-clr {
+    width: 170px;
+    height: 46px;
+    font-size: 0.9rem;
+    font-weight: 400;
+    background: #3ead78;
+    box-shadow: 12px 10px 30px #00000024;
+    color: #fff;
+    padding: 0;
+    border: 0;
+}
+.fa-bell {
+    color: #000;
+}
+
+.statusbtn {
+    min-width: 100px;
+    font-size: 0.8rem;
+    font-weight: 400;
+    border-radius: 24px;
+    height: 26px;
+    border: 0;
+    color: #fff;
+}
+.object {
+    object-fit: cover;
+}
+.form label,
+.label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: #000;
+}
+form input,
+textarea {
+    width: 100%;
+    border: 1px solid #ebebeb;
+    height: 50px;
+    background: #f6f6f6;
+    border-radius: 10px;
+    padding-left: 0.8rem;
+}
+
+.order-managed .badge {
+    width: 80%;
+    font-size: 0.675rem;
+}
+.applied {
+    background: #da6805;
+}
+.ongoing {
+    background: #3638d4;
+}
+.completed {
+    background: #3f980c;
+}
+.text-report {
+    color: #ff0303 !important;
+}
+.text-request {
+    color: #0061ff !important;
+}
+.navbar .sidenav-toggler-inner {
+    margin-right: 14px;
+}
+
+.back-btn {
+    width: 90px;
+    background: #3ead78;
+    height: 40px;
+    border-radius: 10px 0px 10px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0px 80px;
+}
+.orders-card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+}
+
+.orders-card-icon.total-icon {
+    background: #da3200;
+}
+.orders-card-icon.cancel-icon {
+    background: #b21010;
+}
+.orders-card-icon.confirm-icon {
+    background: #0f926d;
+}
+.orders-card-icon.deliverd-icon {
+    background: #3ead78;
+}
+
+.order-details .card-body p,
+.order-details .card-body h6 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #686868;
+    margin: 0;
+}
+
+/* product details view  */
+.thumbnail img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
+
+.another-order-image {
+    overflow: auto;
+}
+.product-detail-tabs .nav-link {
+    color: #686868;
+    font-weight: 600;
+}
+.product-detail-tabs .nav-link:hover {
+    border: 0;
+}
+.product-detail-tabs .nav-link.active {
+    color: #3ead78;
+    border-bottom: 3px solid #3ead78 !important;
+    font-weight: 800;
+    border: 0;
+    background: transparent;
+}
+.additional-info-text {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 32px;
+}
+.order-detail-view .nail-measurement th,
+.order-detail-view .nail-measurement td {
+    border: 1px solid #00000029;
+    min-width: 200px;
+    padding: 14px;
+    font-weight: 400;
+}
+.order-detail-view .nail-measurement td {
+    min-width: 100%;
+    width: 100%;
+}
+.processing {
+    background: #3498db;
+}
+.canceled {
+    background: #ff0303;
+}
+.completed {
+    background: #2ecc71;
+}
+.refund {
+    background: #673ab7;
+}
+.shiped {
+    background: #ff5733;
+}
+.ordered {
+    /* background: #b48b04; */
+    background: #edb706;
+}
+.allorders-tabs .nav-tabs .nav-link {
+    border-radius: 30px;
+    height: 44px;
+    color: #000;
+    font-size: 0.9rem;
+    width: 140px;
+}
+.allorders-tabs .nav-tabs .nav-link:hover {
+    border: 0;
+}
+.allorders-tabs .nav-tabs .nav-link.active {
+    background: #3ead78;
+    color: #fff;
+}
+.delete-modal button {
+    width: 110px;
+    border: 0;
+    color: #fff;
+    border-radius: 20px;
+    height: 40px;
+    font-size: 1rem;
+}
+
+.form-switch .form-check-input:checked {
+    border-color: #3ead78;
+    background-color: #3ead78;
+}
+
+.text-subscription {
+    color: #1ebd00 !important;
+}
+.subscription-users h3 {
+    font-weight: 300;
+    font-size: 40px;
+    text-align: center;
+}
+
+.subscription-users table td {
+    border-bottom: 2px solid #dedede;
+}
+
+.subscription-users table th {
+    min-width: 160px;
+}
+.subscription-users table th:nth-child(1) {
+    min-width: 310px;
+}
+.border-right {
+    border-right: 3px solid #dedede;
+}
+
+.notification-drop {
+    visibility: hidden;
+}
+.notification-drop.show {
+    visibility: visible;
+}
+
+.login label {
+    color: #686868;
+}
+
+.input-field-wrap .toggle-password {
+    position: absolute;
+    right: 20px;
+    top: 54px;
+    cursor: pointer;
+}
+
+.userjob-tab .nav-link {
+    width: 150px;
+    color: #000;
+}
+.userjob-tab .nav-link:hover {
+    border: 0;
+}
+.userjob-tab .nav-link.active {
+    background: #3ead78;
+    color: #fff;
+    border-radius: 30px 30px 0px 0px;
+}
+.month-salary {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.month-salary.money {
+    background: #62d223;
+}
+.month-salary.location {
+    background: #d28623;
+}
+
+.navbar-vertical.bg-white .navbar-nav > .nav-item .nav-link.active .icon-shape {
+    background: #fff;
+    padding-bottom: 12px;
+}
+
+.job-preview p {
+    font-size: 0.9rem;
+    line-height: 26px;
+}
+
+.job-preview {
+    width: 360px;
+    background: #fff;
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+.job-preview .theme-color {
+    background: #3ead78;
+    height: 180px;
+    z-index: -1;
+}
+.job-preview .owl-carousel {
+    margin-top: -130px;
+}
+.vertical-line {
+    border: 2px solid #e5e5e5;
+    margin: 20px 0px;
+}
+
+.status-btn,
+.min-space {
+    width: 100px !important;
+    min-width: 100px !important;
+}
+ol li {
+    color: #000 !important;
+}
+
+.breadcrumb .breadcrumb-item.text-white,
+.breadcrumb h6 {
+    color: #000 !important;
+}
+
+.job-details-wrap {
+    height: calc(100vh - 320px);
+    overflow: auto;
+}
+.job-details-wrap::-webkit-scrollbar {
+    display: none;
+}
+.reviewtxt p {
+    margin-top: 2px;
+}
+
+/* pagination listing style  */
+.pagination-wrap {
+    padding: 16px;
+    background: #f8f9fa;
+    width: min-content;
+    margin-left: auto;
+    border-radius: 20px 0px 0px 20px;
+}
+.page-list {
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #252525;
+    cursor: pointer;
+    list-style: none;
+}
+.page-list.active {
+    border: 2px solid #5cba8d;
+    background: #5cba8d;
+    color: #fff;
+}
+.pagination-wrap p {
+    font-size: 13px;
+    font-weight: 6 00;
+}
+.pagination-wrap i {
+    color: #000;
+    font-size: 12px;
+    margin: 0px 8px;
+}
+@media (max-width: 767.99px) {
+    .tr {
+        width: min-content;
+    }
+    .thead {
+        width: max-content !important;
+    }
+}
+
+.text-white {
+    color: #000 !important;
+}

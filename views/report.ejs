@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png" />
+        <link rel="icon" type="image/png" href="/assets/img/logo.png" />
+        <title>Report</title>
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+        <!-- Nucleo Icons -->
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+        <link href="/assets/css/custom.css" rel="stylesheet" />
+        <script src="https://kit.fontawesome.com/a75f4f3f3a.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body class="g-sidenav-show bg-gray-100">
+        <%- include ('./partials/sidebar.ejs') %>
+
+        <main class="main-content position-relative border-radius-lg">
+            <!-- Navbar -->
+            <!-- <%- include ('./partials/navbar.ejs') %> -->
+            <!-- End Navbar -->
+
+            <div class="container-fluid py-4">
+                <div class="row">
+                    <div class="col-12 userjob-tab">
+                        <ul class="nav nav-tabs d-flex- justify-content-end border-0" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Users</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Jobs</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                                <div class="card shadow-none mb-4">
+                                    <div class="card-header pb-0 d-flex align-items-center justify-content-between mb-4">
+                                        <h6>Users</h6>
+                                        <!-- <a href="#"> <button class="theme-btn-clr">All Orders</button></a> -->
+                                    </div>
+                                    <div class="card-body px-0 py-4 report-wrap">
+                                        <div class="p-0 mx-3 user-technician-table">
+                                            <div class="d-flex align-items-center w-100 justify-content-between px-2 thead">
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Reported By</p>
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7 status-btn">Reported To</p>
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7 status-btn">Date</p>
+
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7 status-btn">Reason</p>
+
+                                                <!-- <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Location</p> -->
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Status</p>
+                                            </div>
+
+                                            <% for(const user of getUserReport){ %>
+                                            <div class="d-flex align-items-center justify-content-between tr px-2 py-3 mb-4 tbody">
+                                                <div class="d-flex py-1 table-content">
+                                                    <div>
+                                                        <img src="<%= user.reportedBy.profile_image %>" onerror="this.onerror=null; this.src='/assets/img/default.jpg'; this.style.display='block';" class="avatar avatar-sm me-3" alt="user1" />
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm"><%= user.reportedBy.first_name %> <%= user.reportedBy.last_name %></h6>
+                                                        <p class="text-xs text-secondary mb-0"><%= user.reportedBy.email %></p>
+                                                    </div>
+                                                </div> 
+                                                <div class="d-flex py-1 table-content">
+                                                    <div>
+                                                        <img src="<%= user.reportedTo.profile_image %>" onerror="this.onerror=null; this.src='/assets/img/default.jpg'; this.style.display='block';" class="avatar avatar-sm me-3" alt="user1" />
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm"><%= user.reportedTo.first_name %> <%= user.reportedTo.last_name %></h6>
+                                                        <p class="text-xs text-secondary mb-0"><%= user.reportedTo.email %></p>
+                                                    </div>
+                                                </div> 
+                                                <!-- 15-Oct-2023 -->
+                                                <% const userTimezone= Intl.DateTimeFormat().resolvedOptions().timeZone; %>
+                                                <% const date= new Date(user.created_at).toLocaleString('en-US',{timeZone: userTimezone, day: '2-digit',month: 'short',year: 'numeric'}) %>
+                                                <p class="text-xs font-weight-bold mb-0 table-content status-btn"><%= date %></p>
+
+                                                <!-- <p class="text-xs font-weight-bold mb-0 table-content status-btn"><%= user.reportedBy.first_name %> <%= user.reportedBy.last_name %></p> -->
+                                                <p class="text-xs font-weight-bold mb-0 table-content status-btn"><%= user.message %></p>
+
+                                                <div class="d-flex align-items-center table-content">
+                                                    <span class="badge <%= user.reportedTo.action  === 'Disable' ? 'reject' : 'approved' %> reportbtn me-3" onclick="enableDiableUser('<%=user.reportedTo.id%>')"><%= user.reportedTo.action %></span>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    <% if(!getUserReport?.length){ %>
+                                        <p style="text-align: center;">Data not found</p>
+                                    <% } %>
+                                    <div class="pagination-wrap d-flex align-items-center justify-content-center mt-3">
+                                        <!-- Assuming you have Bootstrap CSS linked in your HTML -->
+                                        <!-- Pagination Section -->
+                                        <% if(totalUserPages > 1){ %>
+                                            <nav aria-label="Page navigation example">
+                                            <ul class="pagination justify-content-center">
+                                            <!-- Previous Button -->
+                                            <li class="<%= page === 1 ? 'disabled' : '' %>">
+                                                <a class="page-link" href="?page=<%= page - 1 %>&tab=user_tab">Previous</a>
+                                            </li>
+                                        
+                                            <!-- First Page -->
+                                            <!-- <li class="page-item <%= page === 1 ? 'active' : '' %>"> -->
+                                            <li class="page-item <%= page === 1 ? '' : '' %>">
+                                                <a class="page-link" href="?page=1&tab=user_tab">1</a>
+                                            </li>
+                                        
+                                            <!-- Dots for Ellipsis -->
+                                            <% if (page > 1) { %>
+                                                <li class="page-item active"><span class="page-link"><%= page %></span></li>
+                                            <% } %>
+        
+                                            <% if (totalUserPages > 1) { %>
+                                                <li class="">...</li>
+                                            <% } %>
+        
+                                            <!-- Last Page -->
+                                            <!-- <li class="page-item <%= page === totalUserPages ? 'active' : '' %>"> -->
+                                            <li class="page-item <%= page === totalUserPages ? '' : '' %>">
+                                                <a class="page-link" href="?page=<%= totalUserPages %>&tab=user_tab"><%= totalUserPages %></a>
+                                            </li>
+        
+                                            <!-- Next Button -->
+                                            <li class="<%= page === totalUserPages ? 'disabled' : '' %>">
+                                                <a class="page-link" href="?page=<%= page + 1 %>&tab=user_tab">Next</a>
+                                            </li>
+                                            </ul>
+                                        </nav>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                                <div class="card shadow-none mb-4">
+                                    <div class="card-header pb-0 d-flex align-items-center justify-content-between mb-4">
+                                        <h6>Jobs</h6>
+                                        <!-- <a href="#"> <button class="theme-btn-clr">All Orders</button></a> -->
+                                    </div>
+                                    <div class="card-body px-0 py-4 report-wrap">
+                                        <div class="p-0 mx-3 user-technician-table">
+                                            <div class="d-flex align-items-center w-100 justify-content-between px-2 thead">
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Reported By</p>
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Reported Jobs</p>
+                                                <!-- <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7 min-space">Price</p> -->
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Location</p>
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Reason</p>
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Description</p>
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7 status-btn">Report Date</p>
+                                                <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Status</p>
+                                            </div>
+
+                                            <% for(const job of getJobReport){ %>
+                                            <div class="d-flex align-items-center justify-content-between tr px-2 py-3 mb-4 tbody">
+                                                <div class="d-flex py-1 table-content">
+                                                    <div>
+                                                        <img src="<%= job.reportedBy.profile_image %>" onerror="this.onerror=null; this.src='/assets/img/default.jpg'; this.style.display='block';" class="avatar avatar-sm me-3" alt="job1" />
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm"><%= job.reportedBy.first_name %> <%= job.reportedBy.last_name %></h6>
+                                                        <p class="text-xs text-secondary mb-0"><%= job.reportedBy.email %></p>
+                                                    </div>
+                                                </div> 
+                                                <div class="d-flex py-1 table-content">
+                                                    <div>
+                                                        <img src="<%= job.job.job_images[0].job_image %>" onerror="this.onerror=null; this.src='/assets/img/default.jpg'; this.style.display='block';" class="avatar avatar-sm me-3" alt="user1" />
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm"><%= job.job.title %></h6>
+                                                        <p class="text-xs font-weight-bold mb-0"><%= job.job.jobPosterDetail.first_name %> <%= job.job.jobPosterDetail.first_name || "" %></p>
+                                                    </div>
+                                                </div>
+                                                <!-- <p class="table-content text-xs font-weight-bold mb-0 min-space"><%= job.job.price %></p> -->
+
+                                                <div class="table-content d-flex align-items-center">
+                                                    <div class="month-salary location me-2">
+                                                        <i class="fa-solid fa-location-dot fs-6 text-white"></i>
+                                                    </div>
+                                                    <div class="">
+                                                        <p class="text-xs font-weight-bold mb-0"><%= job.job.address %></p>
+                                                    </div>
+                                                </div>
+                                                <p class="table-content text-xs font-weight-bold mb-0"><%= job.message %></p>
+                                                <p class="table-content text-xs font-weight-bold mb-0"><%= job.job.description %></p>
+
+                                                <% const jobTimezone= Intl.DateTimeFormat().resolvedOptions().timeZone; %>
+                                                <% const report_date= new Date(job.created_at).toLocaleString('en-US',{timeZone: jobTimezone, day: '2-digit',month: 'short',year: 'numeric'}) %>
+                                                <p class="table-content text-xs font-weight-bold mb-0 status-btn"><%= report_date %></p>
+                                                <div class="d-flex align-items-center table-content">
+                                                    <span class="badge <%= job.job.action == 'Disable' ? 'reject' : 'approved' %> reportbtn me-3" onclick="enableDiableJob('<%=job.job.id%>')"><%= job.job.action %></span>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                        </div>
+                                    </div>
+
+                                    <% if(!getJobReport?.length){ %>
+                                        <p style="text-align: center;">Data not found</p>
+                                    <% } %>
+                                    
+                                    <div class="pagination-wrap d-flex align-items-center justify-content-center mt-3">
+                                        <!-- Assuming you have Bootstrap CSS linked in your HTML -->
+                                        <!-- Pagination Section -->
+                                        <% if(totalJobPages > 1){ %>
+                                            <nav aria-label="Page navigation example">
+                                            <ul class="pagination justify-content-center">
+                                            <!-- Previous Button -->
+                                            <li class="<%= job_page === 1 ? 'disabled' : '' %>">
+                                                <a class="page-link" href="?job_page=<%= job_page - 1 %>&tab=job_tab">Previous</a>
+                                            </li>
+                                        
+                                            <!-- First Page -->
+                                            <!-- <li class="page-item <%= page === 1 ? 'active' : '' %>"> -->
+                                            <li class="page-item <%= job_page === 1 ? '' : '' %>">
+                                                <a class="page-link" href="?job_page=1&tab=job_tab">1</a>
+                                            </li>
+                                        
+                                            <!-- Dots for Ellipsis -->
+                                            <% if (job_page > 1) { %>
+                                                <li class="page-item active"><span class="page-link"><%= job_page %></span></li>
+                                            <% } %>
+        
+                                            <% if (totalJobPages > 1) { %>
+                                                <li class="">...</li>
+                                            <% } %>
+        
+                                            <!-- Last Page -->
+                                            <!-- <li class="page-item <%= job_page === totalJobPages ? 'active' : '' %>"> -->
+                                            <li class="page-item <%= job_page === totalJobPages ? '' : '' %>">
+                                                <a class="page-link" href="?job_page=<%= totalJobPages %>&tab=job_tab"><%= totalJobPages %></a>
+                                            </li>
+        
+                                            <!-- Next Button -->
+                                            <li class="<%= job_page === totalJobPages ? 'disabled' : '' %>">
+                                                <a class="page-link" href="?job_page=<%= job_page + 1 %>&tab=job_tab">Next</a>
+                                            </li>
+                                            </ul>
+                                        </nav>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!--   Core JS Files   -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <%- include ('./partials/script.ejs') %>
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <script>
+
+            async function enableDiableUser(userId){
+                fetch(`/admin/enableDisableUser?userId=${userId}`).then(async(res)=>{
+                    const resp = await res.json()
+                    if(resp.code ==200){
+                        window.location.reload();
+                    }else if(resp.code ==404){
+                        alert(resp.msg)
+                    }else{
+                        window.location.href ='/admin/login'
+                    }
+                }).catch(error => {
+                    window.location.href ='/admin/login'
+                    console.error('There was a problem with your fetch operation:', error);
+                });
+            }
+
+            async function enableDiableJob(jobId) {
+                fetch(`/admin/enableDisableJob?jobId=${jobId}`).then(async(res)=>{
+                    const resp = await res.json()
+                    console.log('----resp-------',resp);
+                    if(resp.code ==200){
+                        const currentUrl = window.location.href;
+                        if (!currentUrl.includes('tab=')) {
+                            const separator = currentUrl.includes('?') ? '&' : '?';
+                            const updatedUrl = `${currentUrl}${separator}tab=job_tab`;
+                            window.location.href = updatedUrl;
+                        } else {
+                            window.location.reload();
+                        }
+                    }else if(resp.code ==400){
+                        alert(resp.msg)
+                    }else{
+                        window.location.href ='/admin/login'
+                    }
+                }).catch(error => {
+                    window.location.href ='/admin/login'
+                    console.error('There was a problem with your fetch operation:', error);
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const hometab= document.getElementById('home-tab');
+                const profiletab= document.getElementById('profile-tab');
+
+                const homeTabPane= document.getElementById('home-tab-pane');
+                const profileTabPane= document.getElementById('profile-tab-pane');
+
+                if('<%= tab %>' == 'job_tab'){
+                    console.log('-----------12--------');
+                    profiletab.classList.add('active');
+                    hometab.classList.remove('active');
+                    profileTabPane.classList.add('active', 'show');
+                    homeTabPane.classList.remove('active', 'show');
+
+                }else{
+                    // hometab.classList.add('active');
+                    // profiletab.classList.remove('active');
+                }
+            })
+
+            const win = navigator.platform.indexOf("Win") > -1;
+            if (win && document.querySelector("#sidenav-scrollbar")) {
+                const options = { damping: "0.5" };
+                Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+            }
+
+            // pagination
+            $(document).ready(function () {
+                $(".page-list").on("click", function () {
+                    $(".page-list").removeClass("active");
+
+                    $(this).addClass("active");
+                });
+            });
+        </script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+    </body>
+</html>

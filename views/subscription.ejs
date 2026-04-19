@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png" />
+        <link rel="icon" type="image/png" href="/assets/img/logo.png" />
+        <title>Subscription</title>
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+        <!-- Nucleo Icons -->
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+        <link href="/assets/css/custom.css" rel="stylesheet" />
+        <script src="https://kit.fontawesome.com/a75f4f3f3a.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body class="g-sidenav-show bg-gray-100">
+        <%- include ('./partials/sidebar.ejs') %>
+
+        <main class="main-content position-relative border-radius-lg">
+            <!-- Navbar -->
+            <!-- <%- include ('./partials/navbar.ejs') %> -->
+            <!-- End Navbar -->
+            <div class="container-fluid py-4">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow-none mb-4">
+                            <div class="card-body report-wrap">
+                                <div class="subscription-users">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card shadow-none mb-4">
+                                                <div class="card-header pb-0 d-flex align-items-center justify-content-between p-0">
+                                                    <!-- <h6>Subscription</h6> -->
+                                                    <!-- <a href="#"> <button class="theme-btn-clr">All Orders</button></a> -->
+                                                </div>
+                                                <div class="card-body px-0 py-4 report-wrap">
+                                                    <div class="p-0 user-technician-table">
+                                                        <div class="d-flex align-items-center w-100 justify-content-between px-2 thead">
+                                                            <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Users</p>
+                                                            <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7 status-btn">Date</p>
+                                                            <p class="text-uppercase mb-2 text-secondary text-xxs font-weight-bolder opacity-7">Purchase Plan</p>
+                                                        </div>
+
+                                                        <% for(const user of getUsers){ %>
+                                                        <div class="d-flex align-items-center justify-content-between tr px-2 py-3 mb-4 tbody">
+                                                            <div class="d-flex py-1 table-content">
+                                                                <div>
+                                                                    <img src="<%= user.user.profile_image %>" onerror="this.onerror=null; this.src='/assets/img/default.jpg'; this.style.display='block';" class="avatar avatar-sm me-3" alt="user1" />
+                                                                </div>
+                                                                <div class="d-flex flex-column justify-content-center">
+                                                                    <h6 class="mb-0 text-sm"><%=user.user.first_name%> <%=user.user.last_name%></h6>
+                                                                    <p class="text-xs font-weight-bold mb-0"><%=user.user.email%></p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="table-content status-btn">
+                                                                <% const Timezone= Intl.DateTimeFormat().resolvedOptions().timeZone; %>
+                                                                <% const start_date= new Date(user.start_date).toLocaleString('en-US',{timeZone: Timezone, day: '2-digit',month: 'short',year: 'numeric'}) %>
+                                                                <!-- <% const expire_date = new Date(user.expire_date).toLocaleString('en-US',{timeZone: Timezone, day: '2-digit',month: 'short',year: 'numeric'}) %> -->
+                                                                <p class="text-xs font-weight-bold mb-0"><%= start_date || '' %></p>
+                                                            </div>
+                                                            <div class="table-content">
+                                                                <p class="text-xs font-weight-bold mb-0 text-request"><%= (user.expire_date && user.expire_date < new Date(Date.now())) ? "Free Plan" : "Paid Plan" %></p>
+                                                            </div>
+                                                        </div>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                                <% if(!getUsers?.length){ %>
+                                                    <p style="text-align: center; color: rgb(157, 65, 65);">Data not found</p>
+                                                <% } %>
+                                                <div class="pagination-wrap d-flex align-items-center justify-content-center mt-3">
+                                                    <!-- Assuming you have Bootstrap CSS linked in your HTML -->
+                                                    <!-- Pagination Section -->
+                                                    <% if(totalPages > 1){ %>
+                                                        <nav aria-label="Page navigation example">
+                                                        <ul class="pagination justify-content-center">
+                                                        <!-- Previous Button -->
+                                                        <li class="<%= page === 1 ? 'disabled' : '' %>">
+                                                            <a class="page-link" href="?page=<%= page - 1 %>">Previous</a>
+                                                        </li>
+                                                    
+                                                        <!-- First Page -->
+                                                        <!-- <li class="page-item <%= page === 1 ? 'active' : '' %>"> -->
+                                                        <li class="page-item <%= page === 1 ? '' : '' %>">
+                                                            <a class="page-link" href="?page=1">1</a>
+                                                        </li>
+                                                        <!-- Dots for Ellipsis -->
+                                                        <% if (page > 1) { %>
+                                                            <li class="page-item active"><span class="page-link"><%= page %></span></li>
+                                                        <% } %>
+                    
+                                                        <% if (totalPages > 1) { %>
+                                                            <li class="">...</li>
+                                                        <% } %>
+                    
+                                                        <!-- Last Page -->
+                                                        <!-- <li class="page-item <%= page === totalPages ? 'active' : '' %>"> -->
+                                                        <li class="page-item <%= page === totalPages ? '' : '' %>">
+                                                            <a class="page-link" href="?page=<%= totalPages %>"><%= totalPages %></a>
+                                                        </li>
+                                                        <!-- Next Button -->
+                                                        <li class="<%= page === totalPages ? 'disabled' : '' %>">
+                                                            <a class="page-link" href="?page=<%= page + 1 %>">Next</a>
+                                                        </li>
+                                                        </ul>
+                                                    </nav>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!--   Core JS Files   -->
+        <%- include ('./partials/script.ejs') %>
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <script>
+            var win = navigator.platform.indexOf("Win") > -1;
+            if (win && document.querySelector("#sidenav-scrollbar")) {
+                var options = {
+                    damping: "0.5",
+                };
+                Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+            }
+        </script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+    </body>
+</html>
