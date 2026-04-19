@@ -1,87 +1,68 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
-*/
-const socketRoutes = require('../controllers/socketCtrl');
 const app = require('../app');
+const db = require('../models/index');
+const Admin = require('../models/index').admins;
 const debug = require('debug')('my-express-app:server');
 const http = require('http');
+const socketRoutes = require('../controllers/socketCtrl');
 
-/**
- * Get port from environment and store in Express.
- */
-
-const port = normalizePort(process.env.PORT || 3069);
+const port = normalizePort(process.env.PORT || 3070);
 app.set('port', port);
-
-/**
- * Create HTTP server.
- */
 
 const server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
 const io = require('socket.io')(server, {
-  cors: {
-    origin: '*',
-  }
+  cors: { origin: '*' }
 });
 
-// Define your Socket.io connection logic
 io.on('connection', (socket) => {
-  console.log('--------rakett socket.id--------',socket.id);
-
-  // Handle Socket.io events here
+  console.log('--------rakett socket.id--------', socket.id);
   socketRoutes.setupSocketEvents(socket, io);
-
   socket.on('disconnect', () => {
     console.log('User disconnected');
   });
 });
 
+// Sync database first, then start server
+db.sequelize.sync({ force: false })
+  .then(async () => {
+    console.log('✓ Database synced');
+
+    // Seed admin if not exists
+    try {
+      const existingAdmins = await Admin.findAll();
+      if (existingAdmins.length === 0) {
+        await Admin.create({ 
+          email: 'admin@rakett.com', 
+          password: 'admin20261999' 
+        });
+        console.log('✓ Admin data populated');
+      }
+    } catch (err) {
+      console.error('Admin seed error:', err.message);
+    }
+
+    // Start server after sync
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
+  })
+  .catch(err => {
+    console.error('Database sync failed:', err.message);
+    process.exit(1);
+  });
 
 function normalizePort(val) {
   let port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
+  if (isNaN(port)) return val;
+  if (port >= 0) return port;
   return false;
 }
 
-/**
- * Event listener for HTTP server "error" event.
- */
-
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
-
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
-
-  // handle specific listen errors with friendly messages
+  if (error.syscall !== 'listen') throw error;
+  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
   switch (error.code) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
@@ -91,20 +72,14 @@ function onError(error) {
       console.error(bind + ' is already in use');
       process.exit(1);
       break;
-      default:
+    default:
       throw error;
   }
 }
 
-/**
- * Event listener for HTTP server "listening" event.
- */
-
 function onListening() {
   var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);
   console.log(`----server is listening to the ${bind}----`);
 }

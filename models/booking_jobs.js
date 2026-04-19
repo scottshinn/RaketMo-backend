@@ -4,10 +4,10 @@ module.exports = (sequelize, DataTypes) => {
 
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 
-    job_id: { type: DataTypes.INTEGER, references: { model: 'jobs', key: 'id' }, defaultValue: null },
+    job_id: { type: DataTypes.INTEGER, defaultValue: null },
 
-    worker_id: { type: DataTypes.INTEGER, references: { model: 'users', key: 'id' }, defaultValue: null },
-    job_poster_id: { type: DataTypes.INTEGER, references: { model: 'users', key: 'id' }, defaultValue: null },
+    worker_id: { type: DataTypes.INTEGER, defaultValue: null },
+    job_poster_id: { type: DataTypes.INTEGER, defaultValue: null },
 
     booking_status: { type: DataTypes.ENUM("Applied", "Hired", "Completed", "Declined"), defaultValue: "Applied" },
     bid_amount: { type: DataTypes.INTEGER, defaultValue: null },

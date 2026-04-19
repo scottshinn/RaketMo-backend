@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
 
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     user_id: {
-      type: DataTypes.INTEGER,references:{model:'users',key:'id'},defaultValue: null
+      type: DataTypes.INTEGER,
+      defaultValue: null
     },
     stripe_customer_id: { type: DataTypes.STRING },
     stripe_card_id: { type: DataTypes.STRING },

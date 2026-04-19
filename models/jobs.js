@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
 
     min_bids: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
     max_bids: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
-    is_bids_more: { type: DataTypes.TINYINT, allowNull: false, defaultValue: 0 },
+    is_bids_more: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
+    //    is_bids_more: { type: DataTypes.TINYINT, allowNull: false, defaultValue: 0 },
     jobs_date: { type: DataTypes.DATEONLY, allowNull: false },
     jobs_time: { type: DataTypes.STRING, allowNull: false },
 

@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
 
     worker_id: {
       type: DataTypes.INTEGER,
-      references: { model: 'users', key: 'id' },
+//      references: { model: 'users', key: 'id' },
       defaultValue: null
     },
 

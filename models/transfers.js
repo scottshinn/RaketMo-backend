@@ -5,12 +5,12 @@ module.exports = (sequelize, DataTypes) => {
 
     worker_id: {    // worker_id receiving money
       type: DataTypes.INTEGER,
-      references: { model: 'users', key: 'id' },
+//      references: { model: 'users', key: 'id' },
       allowNull: true
     },
     booking_id: {
       type: DataTypes.INTEGER,
-      references: { model: 'booking_jobs', key: 'id' },
+//      references: { model: 'booking_jobs', key: 'id' },
       allowNull: true
     },
     stripe_transfer_id: { type: DataTypes.STRING, allowNull: false },

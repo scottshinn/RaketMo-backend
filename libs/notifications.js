@@ -7,13 +7,13 @@ const admin = require('firebase-admin');
 const serviceAccount = require('./rakett-27c73-firebase.json');
 const axios = require('axios')
 const path = require('path');
-const twilio = require('twilio');
+// const twilio = require('twilio');
 
-const accountSid = process.env.TWILIO_SID;
-const authToken = process.env.TWILIO_AUTH;
-const sender = process.env.TWILIO_FROM;
+// const accountSid = process.env.TWILIO_SID;
+// const authToken = process.env.TWILIO_AUTH;
+// const sender = process.env.TWILIO_FROM;
 
-const Twilioclient = twilio(accountSid, authToken);
+// ping const Twilioclient = twilio(accountSid, authToken);
 
 
 // const sendNotifyToUser = async (data,deviceToken) => {
